@@ -9,3 +9,9 @@ The client does the following:
 * Iterates over each user, get the list of posts made by each user using this URL https://jsonplaceholder.typicode.com/posts?userId=?
 * Serializes post JSON response to Post object.
 * Builds an UserPost object, which has the User object and the list of Posts made by the user.
+
+
+To run this project:
+ * Clone
+ * Run `mvn install` 
+ * Run `Main.java` file.
