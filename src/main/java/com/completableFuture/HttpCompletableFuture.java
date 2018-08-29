@@ -13,6 +13,10 @@ import com.http.HttpUtil;
 import com.model.User;
 import com.model.UserPosts;
 
+/**
+ * Build UserPosts using CompletableFuture.
+ */
+
 public class HttpCompletableFuture extends HttpResponse {
 
     private BiFunction<User, Response, UserPosts> getUserPosts = (user, response) -> new UserPosts(user, super.convertResponseToPost(response.getResponseBody()));

@@ -13,7 +13,7 @@ import com.model.User;
 import com.model.UserPosts;
 
 /**
- * Created by vm033450 on 8/20/18.
+ * Build UserPosts without using CompletableFuture.
  */
 public class HttpFuture extends HttpResponse {
 

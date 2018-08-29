@@ -14,7 +14,7 @@ import com.model.Post;
 import com.model.User;
 
 /**
- * Created by vm033450 on 8/20/18.
+ * Parent class abstracting common methods to interface with HttpUtil.
  */
 public abstract class HttpResponse {
 

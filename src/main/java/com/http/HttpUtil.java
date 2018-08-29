@@ -8,7 +8,7 @@ import org.asynchttpclient.*;
 import org.asynchttpclient.util.HttpConstants;
 
 /**
- * Created by vm033450 on 8/20/18.
+ * Http helper to interface with async-http-client.
  */
 public final class HttpUtil {
     private static HttpUtil httpUtil = new HttpUtil();
