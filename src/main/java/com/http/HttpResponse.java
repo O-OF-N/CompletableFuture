@@ -3,6 +3,7 @@ package com.http;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiFunction;
 
 import org.asynchttpclient.ListenableFuture;
 import org.asynchttpclient.Response;
@@ -19,12 +20,8 @@ public abstract class HttpResponse {
 
     private static final String POSTS_URL = "http://jsonplaceholder.typicode.com/posts";
     private static final String USERS_URL = "http://jsonplaceholder.typicode.com/users";
-
-    protected final Type userType = new TypeToken<List<User>>() {
-    }.getType();
-    protected final Type postType = new TypeToken<List<Post>>() {
-    }.getType();
     private final HttpUtil httpUtil;
+    private final BiFunction<String, Type, List> convert = (response, type) -> new Gson().fromJson(response, type);
 
     protected HttpResponse(HttpUtil httpUtil) {
         this.httpUtil = httpUtil;
@@ -35,33 +32,22 @@ public abstract class HttpResponse {
     }
 
     protected ListenableFuture<Response> getPostsForUser(int userId) {
-        ListenableFuture<Response> responseFuture = this.httpUtil
-                .getWithParams(POSTS_URL, "userId", Integer.toString(userId));
-        return responseFuture;
+        return this.httpUtil.getWithParams(POSTS_URL, "userId", Integer.toString(userId));
     }
 
     protected List<User> convertResponseToUser(String userResponse) {
         if (userResponse == null)
             return new ArrayList<>();
-        ConvertJsonToType<User> convertUser = new ConvertJsonToType<>();
-        List<User> users = convertUser.convert(userResponse, this.userType);
-        return users;
+        return convert.apply(userResponse, new TypeToken<List<User>>() {
+        }.getType());
     }
 
     protected List<Post> convertResponseToPost(String postResponse) {
         if (postResponse == null)
             return new ArrayList<>();
-        ConvertJsonToType<Post> convertPost = new ConvertJsonToType<>();
-        List<Post> posts = convertPost.convert(postResponse, postType);
-        return posts;
+        return convert.apply(postResponse, new TypeToken<List<Post>>() {
+        }.getType());
     }
 
     public abstract void printUserPosts();
-}
-
-class ConvertJsonToType<T> {
-
-    public List<T> convert(String response, Type type) {
-        return new Gson().fromJson(response, type);
-    }
 }
