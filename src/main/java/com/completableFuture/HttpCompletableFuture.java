@@ -33,8 +33,9 @@ public class HttpCompletableFuture extends HttpResponse {
         try {
             System.out.println("--------Completable Future Method Start---------- ");
 
-            CompletableFuture<Response> usersResponse = super.getUsers().toCompletableFuture();
-            List<CompletableFuture<UserPosts>> userPostsCompletable = usersResponse.thenApply(u -> super.convertResponseToUser(u.getResponseBody()))
+            List<CompletableFuture<UserPosts>> userPostsCompletable = super.getUsers()
+                    .toCompletableFuture()
+                    .thenApply(u -> super.convertResponseToUser(u.getResponseBody()))
                     .thenApply(getPostResponseForUser)
                     .join();
             List<UserPosts> userPosts = userPostsCompletable.stream().map(CompletableFuture::join).collect(Collectors.toList());
